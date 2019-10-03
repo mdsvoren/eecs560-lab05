@@ -1,18 +1,23 @@
+/*
+Michael Svoren
+9/30/19
+EECS 560
+*/
 #include <iostream>
 #include <fstream>
 #include <string>
 
-#include "BinaryTree.h"
+#include "BinarySearchTree.h"
 #include "Executive.h"
 
 Executive::Executive(std::string filePath)
 {
-    bTree = new BinaryTree<int>();
+    bTree = new BinarySearchTree<char>();
    std::ifstream reader;
    reader.open(filePath);
    if (reader)
    {
-       int input =0;
+       char input =0;
        std::cout << "data.txt: ";
       while (reader >> input)
       {
@@ -42,7 +47,7 @@ void Executive::run()
 int Executive::printOptionsAndGetUserInput()
 {
    std::cout << "\nChoose one operation from the options below:\n";
-   std::cout << "1. IsFull\n2. AddItem\n3. Delete\n4. Leaf\n5. PrintLeaf\n6. PrintTreeHeight\n7. PreOrder\n8. PostOrder\n9. InOrder\n10. LevelOrder\n11. Exit\n";
+   std::cout << "1. AddItem\n2. Delete\n3. Leaf\n4. PrintLeaf\n5. PrintTreeHeight\n6. PreOrder\n7. PostOrder\n8. InOrder\n9. LevelOrder\n10. SearchItem\n11. Exit\n";
    int userInput = 0;
    while (userInput < 1 || userInput > 11)
    {
@@ -63,25 +68,12 @@ void Executive::callFunctionFromUserInput(int userInput)
 {
    if (userInput == 1)
    {
-       std::cout << "IsFull: ";
-       if (bTree->isFull())
-       {
-           std::cout << "True\n";
-       }
-       else
-       {
-           std::cout << "False\n";
-       }
-       
-   }
-   else if (userInput == 2)
-   {
        std::cout << "Please enter the value to add to the tree: ";
-        int val = 0;
+        char val = 0;
         std::cin >> val;
         if (!std::cin.good())
         {
-            std::cout << "You must enter an int\n";
+            std::cout << "You must enter a char\n";
             std::cin.clear();
             std::cin.ignore(1000, '\n');
             return;
@@ -93,25 +85,41 @@ void Executive::callFunctionFromUserInput(int userInput)
         }
         else
         {
-            std::cout << "Failed to insert value - already present in tree\n";
+            std::cout << "Failed to insert value\n";
         }
    }
-   else if (userInput == 3)
+   else if (userInput == 2)
    {
+        std::cout << "Please enter the value to delete from the tree: ";
+        char val = 0;
+        std::cin >> val;
+        if (!std::cin.good())
+        {
+            std::cout << "You must enter a char\n";
+            std::cin.clear();
+            std::cin.ignore(1000, '\n');
+            return;
+        }
+
        try
        {
-           int val = bTree -> Delete();
-            std::cout << "Successfully deleted the last value, " << val << ", from tree\n";
+            if (bTree -> Delete(val))
+            {
+                std::cout << "Successfully deleted " << val << " from tree\n";
+            }
+            else {
+                std::cout << "Could not delete node\n";
+            }
        }
        catch(const std::exception& e)
        {
-           std::cout << "Could not delete node - tree is empty\n";
+           std::cout << "Could not delete node\n";
        }
        
    }
-   else if (userInput == 4)
+   else if (userInput == 3)
    {
-       int val = 0;
+       char val = 0;
        std::cout << "Please enter the value to test as a leaf node: ";
        std::cin >> val;
        if (bTree -> leaf(val))
@@ -123,29 +131,50 @@ void Executive::callFunctionFromUserInput(int userInput)
            std::cout << val << " is not a leaf node\n";
        }
    }
-   else if (userInput == 5)
+   else if (userInput == 4)
    {
        bTree -> printLeafs();
    }
-   else if (userInput == 6)
+   else if (userInput == 5)
    {
        bTree ->  printTreeHeight();
    }
-   else if (userInput == 7)
+   else if (userInput == 6)
    {
        bTree ->  preOrder();
    }
-   else if (userInput == 8)
+   else if (userInput == 7)
    {
        bTree ->  postOrder();
    }
-   else if (userInput == 9)
+   else if (userInput == 8)
    {
        bTree ->  inOrder();
    }
-   else if (userInput == 10)
+   else if (userInput == 9)
    {
        bTree ->  levelOrder();
+   }
+   else if (userInput == 10)
+   {
+        std::cout << "Please enter the to search for: ";
+        char val = 0;
+        std::cin >> val;
+        if (!std::cin.good())
+        {
+            std::cout << "You must enter a char\n";
+            std::cin.clear();
+            std::cin.ignore(1000, '\n');
+            return;
+        }
+       if (bTree -> searchElement(val))
+       {
+           std::cout << val << " was found in the binary search tree\n";
+       }
+       else
+       {
+           std::cout << val << " was not found in the binary search tree\n";
+       }
    }
 }
 

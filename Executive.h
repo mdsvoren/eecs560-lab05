@@ -1,13 +1,18 @@
+/*
+Michael Svoren
+9/30/19
+EECS 560
+*/
 #ifndef EXECUTIVE_H
 #define EXECUTIVE_H
 
 #include <string>
 
-#include "BinaryTree.h"
+#include "BinarySearchTree.h"
 
 class Executive {
     private:
-        BinaryTree<int>* bTree;
+        BinarySearchTree<char>* bTree;
         int printOptionsAndGetUserInput();
         void callFunctionFromUserInput(int userInput);
 

@@ -1,6 +1,6 @@
 /*
 Michael Svoren
-8/30/19
+9/30/19
 EECS 560
 Node.h - Header file for Node class. Each node points to the next node, previous node, and holds an int
 */

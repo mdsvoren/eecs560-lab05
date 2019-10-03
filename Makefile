@@ -4,7 +4,7 @@ program: main.o Executive.o
 main.o: main.cpp Executive.cpp
 	g++ -std=c++11 -g -Wall -c main.cpp
 
-Executive.o: Executive.h Executive.cpp BinaryTree.h BinaryTree.cpp Node.h Node.cpp
+Executive.o: Executive.h Executive.cpp BinarySearchTree.h BinarySearchTree.cpp Node.h Node.cpp
 	g++ -std=c++11 -g -Wall -c Executive.cpp
 
 clean: 

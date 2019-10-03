@@ -1,6 +1,6 @@
 /*
 Michael Svoren
-8/30/19
+9/30/19
 EECS 560
 */
 #ifndef BINARY_TREE_H
@@ -9,30 +9,30 @@ EECS 560
 #include "Node.h"
 
 template <typename t>
-class BinaryTree
+class BinarySearchTree
 {
     private:
         Node<t>* m_root;
         int m_numNodes;
         int getTreeHeight() const;
-        bool findElement(t val, Node<t>* root) const;
-        int getLevel(t val, Node<t>* root, int level) const;
-        bool addItemHelper(t value, Node<t>* root, int treeHeight, int currentLevel);
-        void addToFarthestLeft(t value, Node<t>* root);
+        bool searchElementHelper(t val, Node<t>* root) const;
+        bool addItemHelper(t value, Node<t>* root);
         void printLeafsHelper(Node<t>* root) const;
         int getTreeHeightHelper(Node<t>* root, int h) const;
-        bool deleteHelper(Node<t>* root, int treeHeight, int currentLevel);
-        Node<t>* getLastNode(Node<t>* root, int treeHeight, int currentLevel);
+        bool deleteHelper(Node<t>* root, Node<t>* nodeToRemove);
         void printPreOrder(Node<t>* root) const;
         void printPostOrder(Node<t>* root) const;
         void printInOrder(Node<t>* root) const;
         void printLevelOrder(Node<t>* root, int targetLevel, int currentLevel) const;
-        Node<t>* isLeafHelper(Node<t>* root, t value);
+        bool isLeafHelper(Node<t>* root, t value);
+        Node<t>* findNodeToRemove(Node<t>* root, t value);
+        bool deleteMin(Node<t>* root, t value);
+        t findMinRight(Node<t>* root);
+        bool deleteLeaf(Node<t>* root, t value);
 
     public:
-        bool isFull() const;
         bool addItem(t value);
-        t Delete();
+        bool Delete(t value);
         bool leaf(t value);
         void printLeafs() const;
         void printTreeHeight() const;
@@ -40,9 +40,10 @@ class BinaryTree
         void postOrder() const;
         void inOrder() const;
         void levelOrder() const;
+        bool searchElement(t value) const;
 
-        BinaryTree();
-        ~BinaryTree();
+        BinarySearchTree();
+        ~BinarySearchTree();
 };
-#include "BinaryTree.cpp"
+#include "BinarySearchTree.cpp"
 #endif
