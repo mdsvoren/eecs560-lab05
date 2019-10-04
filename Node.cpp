@@ -58,5 +58,6 @@ bool Node<t>::setLeft(Node<t>* nextLeft)
 template<typename t>
 bool Node<t>::setValue(t value)
 {
+    m_value = value;
     return true;
 }

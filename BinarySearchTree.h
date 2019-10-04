@@ -19,17 +19,13 @@ class BinarySearchTree
         bool addItemHelper(t value, Node<t>* root);
         void printLeafsHelper(Node<t>* root) const;
         int getTreeHeightHelper(Node<t>* root, int h) const;
-        bool deleteHelper(Node<t>* root, Node<t>* nodeToRemove);
         void printPreOrder(Node<t>* root) const;
         void printPostOrder(Node<t>* root) const;
         void printInOrder(Node<t>* root) const;
         void printLevelOrder(Node<t>* root, int targetLevel, int currentLevel) const;
         bool isLeafHelper(Node<t>* root, t value);
-        Node<t>* findNodeToRemove(Node<t>* root, t value);
-        bool deleteMin(Node<t>* root, t value);
         t findMinRight(Node<t>* root);
-        bool deleteLeaf(Node<t>* root, t value);
-        Node<t>* Delete1(Node<t>* root, t value);
+        Node<t>* DeleteHelper(Node<t>* root, t value);
 
     public:
         bool addItem(t value);
