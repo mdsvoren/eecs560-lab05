@@ -78,7 +78,7 @@ void Executive::callFunctionFromUserInput(int userInput)
             std::cin.ignore(1000, '\n');
             return;
         }
-        
+
         if (bTree->addItem(val))
         {
             std::cout << "Value inserted successfully!\n";
@@ -108,14 +108,14 @@ void Executive::callFunctionFromUserInput(int userInput)
                 std::cout << "Successfully deleted " << val << " from tree\n";
             }
             else {
-                std::cout << "Could not delete node\n";
+                std::cout << "Delete failed: character not found\n";
             }
        }
        catch(const std::exception& e)
        {
            std::cout << "Could not delete node\n";
        }
-       
+
    }
    else if (userInput == 3)
    {
@@ -126,7 +126,7 @@ void Executive::callFunctionFromUserInput(int userInput)
        {
            std::cout << "The node containing " << val << " is a leaf node\n";
        }
-       else 
+       else
        {
            std::cout << val << " is not a leaf node\n";
        }

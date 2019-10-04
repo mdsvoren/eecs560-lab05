@@ -22,7 +22,7 @@ BinarySearchTree<t>::BinarySearchTree()
 template <typename t>
 BinarySearchTree<t>::~BinarySearchTree()
 {
-    while (m_numNodes>0)
+    while (m_root != nullptr)
     {
          Delete(m_root -> getValue());
     }
@@ -43,8 +43,8 @@ bool BinarySearchTree<t>::addItem(t value)
     {
         return addItemHelper(value, m_root);
     }
-    
-    
+
+
 }
 
 
@@ -124,20 +124,52 @@ bool BinarySearchTree<t>::Delete(t value)
     if (m_root == nullptr || !searchElement(value))
     {
         return false;
-    }   
+    }
 
     if (m_root -> getValue() == value)
     {
+      if (m_root -> getRight() == nullptr && m_root -> getLeft() == nullptr)
+      {
         delete m_root;
         m_root = nullptr;
         m_numNodes--;
         return true;
+      }
+      else if (m_root -> getRight() != nullptr && m_root -> getLeft() != nullptr)
+      {
+        t min = findMinRight(m_root -> getRight());
+        //deleteMin(m_root, min);
+        if (leaf(min))
+        {
+          deleteLeaf(m_root, min);
+        }
+        else deleteHelper(m_root, findNodeToRemove(m_root->getRight(), min));
+        Node<t>* n = new Node<t>(min, m_root -> getLeft(), m_root -> getRight());
+        delete m_root;
+        m_root = n;
+        return true;
+       }
+       else if (m_root -> getRight() != nullptr)
+       {
+         Node<t>* temp = m_root -> getRight();
+         delete m_root;
+         m_root = temp;
+         return true;
+       }
+       else
+       {
+         Node<t>* temp = m_root -> getLeft();
+         delete m_root;
+         m_root = temp;
+         return true;
+       }
     }
 
     //delete if it is a leaf
     if (leaf(value))
     {
-        bool deleteLeaf(Node<t>* root, t value);
+        m_numNodes--;
+        return deleteLeaf(m_root, value);
     }
 
     if (deleteHelper(m_root, findNodeToRemove(m_root, value)))
@@ -168,12 +200,12 @@ bool BinarySearchTree<t>::deleteLeaf(Node<t>* root, t value)
         root -> setLeft(nullptr);
         return true;
     }
-    
+
     if (root -> getValue() > value)
     {
-        return deleteLeaf(root -> getLeft());
+        return deleteLeaf(root -> getLeft(), value);
     }
-    else return deleteLeaf(root -> getRight());
+    else return deleteLeaf(root -> getRight(), value);
 }
 
 template <typename t>
@@ -182,14 +214,36 @@ bool BinarySearchTree<t>::deleteMin(Node<t>* root, t value)
 {
     if (root == nullptr) return false;
 
-    if (root -> getLeft() -> getLeft() == nullptr)
+    //since the node to delete is a min, it will only have a right subtree
+    if (root -> getLeft() != nullptr && root -> getLeft() -> getValue() == value)
     {
-        Node<t>* rightOfDelete = root -> getLeft() -> getRight();
-        delete root -> getLeft();
-        root -> setLeft(rightOfDelete);
-        return true;
+      Node<t>* temp = root ->getLeft()->getRight();
+      delete root -> getLeft();
+      root -> setLeft(temp);
+      return true;
     }
-    return deleteMin(root -> getLeft(), value);
+    else if (root -> getRight() != nullptr && root -> getRight() -> getValue() == value)
+    {
+      Node<t>* temp = root ->getRight()->getRight();
+      delete root -> getLeft();
+      root -> setRight(temp);
+      return true;
+    }
+
+    if (root -> getValue() > value)
+    {
+      return deleteMin(root-> getLeft(), value);
+    }
+    else return deleteMin(root ->getRight(), value);
+
+    // if (root -> getRight() -> getLeft() == nullptr)
+    // {
+    //     Node<t>* rightOfDelete = root -> getLeft() -> getRight();
+    //     delete root -> getLeft();
+    //     root -> setLeft(rightOfDelete);
+    //     return true;
+    // }
+    // return deleteMin(root -> getLeft(), value);
 }
 
 
@@ -208,7 +262,12 @@ bool BinarySearchTree<t>::deleteHelper(Node<t>* root, Node<t>* nodeToRemove)
         if (nodeToRemove->getLeft() != nullptr && nodeToRemove -> getRight() != nullptr)
         {
             t min = findMinRight(nodeToRemove -> getRight());
-            deleteMin(nodeToRemove, min);
+            // deleteMin(nodeToRemove, min);
+            if (leaf(min))
+            {
+              deleteLeaf(nodeToRemove, min);
+            }
+            else deleteHelper(nodeToRemove, findNodeToRemove(nodeToRemove->getRight(), min));
             Node<t>* n = new Node<t>(min, nodeToRemove -> getLeft(), nodeToRemove -> getRight());
             delete nodeToRemove;
             root -> setRight(n);
@@ -243,7 +302,13 @@ bool BinarySearchTree<t>::deleteHelper(Node<t>* root, Node<t>* nodeToRemove)
         if (nodeToRemove->getLeft() != nullptr && nodeToRemove -> getRight() != nullptr)
         {
             t min = findMinRight(nodeToRemove -> getRight());
-            deleteMin(nodeToRemove, min);
+            //deleteMin(nodeToRemove, min);
+            if (leaf(min))
+            {
+              deleteLeaf(nodeToRemove, min);
+            }
+            else deleteHelper(nodeToRemove, findNodeToRemove(nodeToRemove->getRight(), min));
+
             Node<t>* n = new Node<t>(min, nodeToRemove -> getLeft(), nodeToRemove -> getRight());
             delete nodeToRemove;
             root -> setLeft(n);
@@ -252,6 +317,7 @@ bool BinarySearchTree<t>::deleteHelper(Node<t>* root, Node<t>* nodeToRemove)
         //case 1 left child
         else if (nodeToRemove->getLeft() != nullptr)
         {
+          std::cout << "one left child\n";
             Node<t>* left = nodeToRemove -> getLeft();
             delete nodeToRemove;
             root -> setLeft(left);
