@@ -2,6 +2,7 @@
 Michael Svoren
 9/30/19
 EECS 560
+Start the program off
 */
 #include <iostream>
 #include <string>
@@ -22,24 +23,6 @@ int main()
       std::cout << "Unable to open specified file. Please restart program to try again.\n";
    }
 
-
-   // BinarySearchTree<char>* bst = new BinarySearchTree<char>();
-
-   // bst -> addItem('f');
-   // bst -> printTreeHeight();
-   // bst -> printLeafs();
-   
-   // bst -> addItem('b');
-   // bst -> printTreeHeight();
-   // bst -> printLeafs();
-
-   // bst -> addItem('g');
-   // bst -> printTreeHeight();
-   // bst -> printLeafs();
-
-   // bst -> addItem('d');
-   // bst -> printTreeHeight();
-   // bst -> printLeafs();
 
    std::cout << "\nExiting program\n";
 }

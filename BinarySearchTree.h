@@ -2,6 +2,8 @@
 Michael Svoren
 9/30/19
 EECS 560
+Header file for the BST
+
 */
 #ifndef BINARY_TREE_H
 #define BINARY_TREE_H

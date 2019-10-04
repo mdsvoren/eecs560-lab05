@@ -2,6 +2,7 @@
 Michael Svoren
 9/30/19
 EECS 560
+Implementation file for the BST
 */
 #include <string>
 #include <stdexcept>

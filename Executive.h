@@ -2,6 +2,8 @@
 Michael Svoren
 9/30/19
 EECS 560
+Header file for the Executive class
+
 */
 #ifndef EXECUTIVE_H
 #define EXECUTIVE_H
