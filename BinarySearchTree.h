@@ -29,6 +29,7 @@ class BinarySearchTree
         bool deleteMin(Node<t>* root, t value);
         t findMinRight(Node<t>* root);
         bool deleteLeaf(Node<t>* root, t value);
+        Node<t>* Delete1(Node<t>* root, t value);
 
     public:
         bool addItem(t value);
